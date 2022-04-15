@@ -40,7 +40,7 @@ const validate = (values) => {
     return errors;
 };
 
-const Register = () => {
+  const Register = () => {
   const [Data, setData] = useState("");
    let [states, setStates] = useState("");
   useEffect(() => {
@@ -62,7 +62,7 @@ const Register = () => {
     },
     //  validate,
     onSubmit: (values) => {
-        axios.post("http://localhost:3000/profile", {
+        axios.post(" http://localhost:3000/profile", {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
@@ -196,4 +196,5 @@ const Register = () => {
     </form>
   );
 };
-export default Register;
+
+export default Register

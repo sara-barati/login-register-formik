@@ -1,16 +1,14 @@
 import React ,{useState}  from 'react';
 
- const ContextUser = React.createContext({})
-
-export const UserProvider = ({ children }) => {
+export const valueContext = React.createContext({})
+export default function ContextUser({children}){
     const [LoggedInUsers, setLoggedInUsers] = useState([]);
     const [isSignin, setIsSignin] = useState(false);
     
     return (
-        <ContextUser.Provider value={{ LoggedInUsers, setLoggedInUsers ,isSignin,setIsSignin}}>
+        <valueContext.Provider value={{ LoggedInUsers, setLoggedInUsers ,isSignin,setIsSignin}}>
             {children}
-        </ContextUser.Provider>
+        </valueContext.Provider>
     );
 };
   
-export  default  ContextUser;

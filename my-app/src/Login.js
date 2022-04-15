@@ -1,12 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
-import React ,{useState ,useContext} from 'react';
-
+import {useState ,useContext} from 'react';
 import axios from "axios";
-import ContextUser from "./ContextUser";
+import {valueContext} from "./ContextUser";
 
 export default function Login() {
-    const {setLoggedInUsers ,setIsSignin} = useContext(ContextUser);
+    const {setLoggedInUsers ,setIsSignin} = useContext(valueContext);
   return (
     <div>
     <h3 className="text-center"> خوش آمدید</h3>
@@ -35,7 +34,7 @@ export default function Login() {
            alert(JSON.stringify(values, null, 2));
            setSubmitting(false);
          }, 3000);
-         axios.get("http://localhost:3000/profile").then((res) => {
+         axios.get(" http://localhost:3000/profile").then((res) => {
             res.data.map((data) => {
                 if (data.email === values.email && data.password === values.password) {
     
