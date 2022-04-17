@@ -1,19 +1,16 @@
 
 
+import React, { useState } from "react";
 import "./App.css";
-
 import Login from "./Login";
 import Register from "./Register";
-
 import ContextUser from "./ContextUser";
-
 import Withcomponent from "./Withcomponent";
-
-import React, { useState } from "react";
 
   function App() {
  
   let [login, setlogin] = useState(true);
+
 
   const greenStyle = {
     backgroundColor: "green",
@@ -30,7 +27,7 @@ import React, { useState } from "react";
   };
 
   return (
-    <div>
+    <>
        <ContextUser>
        <div className="button mb-2">
       <button
@@ -51,7 +48,7 @@ import React, { useState } from "react";
       </div>
       ,<div className="mt-5 form">{login ? <Login /> : <Register />}</div>
       </ContextUser>
-    </div>
+    </>
   );
 }
 

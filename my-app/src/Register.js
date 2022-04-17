@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
+import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
 // import CustomSelect from './CustomSelect'
 
 import axios from "axios";
 // import "./register.css"
 
-const options = [
-  { value: 1, label: " دیپلم" },
-  { value: 2, label: "لیسانس" },
-  { value: 3, label: "فوق لیسانس" },
-  { value: 4, label: "دکتری" },
-];
+// const options = [
+//   { value: 1, label: " دیپلم" },
+//   { value: 2, label: "لیسانس" },
+//   { value: 3, label: "فوق لیسانس" },
+//   { value: 4, label: "دکتری" },
+// ];
 const validate = (values) => {
   const errors = {};
   if (!values.firstName) {
@@ -40,9 +41,10 @@ const validate = (values) => {
     return errors;
 };
 
-  const Register = () => {
+const Register = () => {
   const [Data, setData] = useState("");
-   let [states, setStates] = useState("");
+  let [states, setStates] = useState("");
+  const [passVisibility, setpassVisibility] = useState(false);
   useEffect(() => {
     axios.get("/city.json").then((res) => setData(res.data));
   }, []);
@@ -57,22 +59,20 @@ const validate = (values) => {
       password: "",
       education: "",
       mahaltahsil: "",
-      province:"",
-      city:""
+      province: "",
+      city: "",
     },
-    //  validate,
+    validate: { validate },
     onSubmit: (values) => {
-        axios.post(" http://localhost:3000/profile", {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          email: values.email,
-          password: values.password,
-        });
-        alert(JSON.stringify(values, null, 2));
-      },
-    });
-
- 
+      axios.post(" http://localhost:3000/profile", {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      });
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -114,13 +114,16 @@ const validate = (values) => {
       <label htmlFor="‌password">کلمه عبور</label>
       <input
         id="password"
-        type="password"
+        type={passVisibility ? "text" : "password"}
         name="password"
         placeholder="کلمه عبور"
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values.password}
       />
+      <span onClick={() => setpassVisibility(!passVisibility)}>
+        {passVisibility ? <BsEyeSlashFill /> : <BsEyeFill />}
+      </span>
       <select
         name="education"
         onChange={formik.handleChange}
@@ -165,30 +168,31 @@ const validate = (values) => {
           className="mt-3"
         />
       )}
-       <select
-            className="select"
-            onChange={formik.handleChange}
-            value={formik.values.province}
-            name="province"
-            style={{ display: "block" }}
-          >
-            <option hidden>استان</option>
-            {Object.keys(Data).map((State) => {
-              return <option>{State}</option>;
-            })}
-          </select>
-          <select 
-                        name = 'city'
-                        className='register selectEducation' 
-                        as="select"
-                        onChange={formik.handleChange}
-                        value={formik.values.city}
-                    >
-                        <option value={'notchooseCity'}>شهرستان</option>
-                        {Data[formik.values.province] !== undefined && Data[formik.values.province].map(item => (
-                            <option value={item}>{item}</option>
-                        ))}
-                    </select>
+      <select
+        className="select"
+        onChange={formik.handleChange}
+        value={formik.values.province}
+        name="province"
+        style={{ display: "block" }}
+      >
+        <option hidden>استان</option>
+        {Object.keys(Data).map((State) => {
+          return <option>{State}</option>;
+        })}
+      </select>
+      <select
+        name="city"
+        className="register selectEducation"
+        as="select"
+        onChange={formik.handleChange}
+        value={formik.values.city}
+      >
+        <option value={"notchooseCity"}>شهرستان</option>
+        {Data[formik.values.province] !== undefined &&
+          Data[formik.values.province].map((item) => (
+            <option value={item}>{item}</option>
+          ))}
+      </select>
 
       <button type="submit" disabled={formik.isSubmitting}>
         ورود
@@ -197,4 +201,4 @@ const validate = (values) => {
   );
 };
 
-export default Register
+export default Register;

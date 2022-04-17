@@ -1,13 +1,18 @@
 import React from 'react';
+import "./login.css"
 import { Formik } from 'formik';
 import {useState ,useContext} from 'react';
 import axios from "axios";
 import {valueContext} from "./ContextUser";
+import LogOut from './LogOut'
+import { BsEyeSlashFill, BsEyeFill } from "react-icons/bs";
+
 
 export default function Login() {
-    const {setLoggedInUsers ,setIsSignin} = useContext(valueContext);
+    const {setLoggedInUsers ,isSignin,setIsSignin,LoggedInUsers} = useContext(valueContext);
+    const [passVisibility, setpassVisibility] = useState(false);
   return (
-    <div>
+    <div className="login">
     <h3 className="text-center"> خوش آمدید</h3>
      <Formik
        initialValues={{ email: '', password: '' }}
@@ -34,15 +39,17 @@ export default function Login() {
            alert(JSON.stringify(values, null, 2));
            setSubmitting(false);
          }, 3000);
-         axios.get(" http://localhost:3000/profile").then((res) => {
-            res.data.map((data) => {
-                if (data.email === values.email && data.password === values.password) {
+         axios.get("http://localhost:3000/profile").then((res) => {
+            res.data.map((dataa) => {
+                if (dataa.email === values.email && dataa.password === values.password) {
     
-                    setLoggedInUsers((preveState) => [...preveState, data]);
+								  setLoggedInUsers((preveState) =>([...preveState, dataa]) )
+                
                     setIsSignin(true);
                 }
             });
          });
+         console.log({LoggedInUsers});
        }}
   
      >
@@ -57,6 +64,7 @@ export default function Login() {
          /* and other goodies */
        }) => (
          <form onSubmit={handleSubmit}>
+ 
            <input
              type="email"
              name="email"
@@ -66,22 +74,31 @@ export default function Login() {
              value={values.email}
            />
            {errors.email && touched.email && errors.email}
+           <div className="inputpass">
            <input
-             type="password"
+             type={passVisibility ? "text" : "password"}
              name="password"
              placeholder="کلمه عبور" 
              onChange={handleChange}
              onBlur={handleBlur}
              value={values.password}
            />
+             <span
+                        onClick={() => setpassVisibility(!passVisibility)}
+                        className="icon"
+                     >
+                        {passVisibility ? <BsEyeSlashFill /> : <BsEyeFill />}
+                     </span>
            {errors.password && touched.password && errors.password}
            <a href="#" className="mb-3 ">  فراموش کردید؟</a>
            <button type="submit" disabled={isSubmitting}>
            ورود
            </button>
+           </div>
          </form>
        )}
      </Formik>
+     {/* {IsSignin ? <LogOut /> : ""} */}
    </div>
  );
   

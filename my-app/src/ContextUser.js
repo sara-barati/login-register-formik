@@ -1,6 +1,6 @@
 import React ,{useState}  from 'react';
 
-export const valueContext = React.createContext({})
+export const valueContext = React.createContext("")
 export default function ContextUser({children}){
     const [LoggedInUsers, setLoggedInUsers] = useState([]);
     const [isSignin, setIsSignin] = useState(false);

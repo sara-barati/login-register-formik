@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import {valueContext } from './ContextUser';
 import Withcomponent from './Withcomponent';
+import {valueContext } from './ContextUser';
 
 function LogOut({logOut}) {
     const{LoggedInUsers}=useContext(valueContext)
